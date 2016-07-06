@@ -11,7 +11,10 @@
   "author": "",
   "license": "ISC",
   "babel": {
-    "presets": ["es2015", "react"],
+    "presets": [
+      "es2015",
+      "react"
+    ],
     "plugins": [
       "transform-object-rest-spread"
     ]
@@ -36,11 +39,18 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "css-loader": "^0.23.1",
+    "faye": "^1.2.1",
     "immutable": "^3.8.1",
+    "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.13.1",
+    "material-ui-build": "git+ssh://git@github.com/callemall/material-ui.git",
+    "normalize.css": "^4.2.0",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
     "react-redux": "^4.4.5",
-    "redux": "^3.5.2"
+    "redux": "^3.5.2",
+    "redux-thunk": "^2.1.0",
+    "style-loader": "^0.13.1"
   }
 }

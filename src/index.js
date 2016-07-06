@@ -4,6 +4,9 @@ import configureStore from './stores/store'
 import {Provider} from 'react-redux'
 import AppContainer from './containers/App'
 
+require('normalize.css')
+require('./styles/main.styl')
+
 const store = configureStore()
 
 ReactDOM.render(
