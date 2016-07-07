@@ -1,39 +1,37 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import Header from '../components/common/Header'
-import Rooms from '../components/Rooms'
+import SideBar from '../components/SideBar'
+import Messages from '../components/Messages'
 import {fetchUserIfNeeded} from '../actions/user'
-import {fetchRoomsIfNeeded} from '../actions/rooms'
-import client from '../faye/client'
+import {roomSelectAndFetchMessages} from '../actions/room'
 
 class App extends React.Component {
     componentDidMount() {
-        const {dispatch} = this.props
-        dispatch(fetchUserIfNeeded('react'))
-    }
-    componentWillReceiveProps(nextProps) {
-        const {dispatch} = this.props
-        const userId = nextProps.user && nextProps.user.get('id')
-        const prevUserId = this.props.user && this.props.user.get('id')
-        if (!prevUserId && userId) {
-            // subscribe to room
-            client.subscribe(`/api/v1/user/${userId}/rooms`, (message) => {
-                console.log(message)
-            })
-           // dispatch(fetchRoomsIfNeeded())
-        }
+        this.props.fetchUserIfNeeded()
     }
     render() {
+        const {
+            user,
+            rooms,
+            roomSelectAndFetchMessages,
+            selectedRoom,
+            messages
+        } = this.props
         return (
             <div className="app-container">
-                <Header user={this.props.user} />
-                <Rooms rooms={this.props.rooms} />
+                <Header user={user} />
+                <SideBar rooms={rooms} roomSelect={roomSelectAndFetchMessages} />
+                <Messages roomId={selectedRoom} messages={messages} />
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => state.toObject()
-const AppContainer = connect(mapStateToProps)(App)
+const AppContainer = connect(mapStateToProps, {
+    fetchUserIfNeeded,
+    roomSelectAndFetchMessages
+})(App)
 
 export default AppContainer

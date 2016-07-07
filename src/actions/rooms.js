@@ -23,7 +23,7 @@ const mapJSONToRooms = (json) => _.map(json, (room) => _.pick(room, [
     'name',
     'topic',
     'oneToOne',
-    'users',
+    'user',
     'userCount',
     'unreadItems',
     'mentions',
