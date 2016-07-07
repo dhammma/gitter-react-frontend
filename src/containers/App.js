@@ -21,8 +21,10 @@ class App extends React.Component {
         return (
             <div className="app-container">
                 <Header user={user} />
-                <SideBar rooms={rooms} roomSelect={roomSelectAndFetchMessages} />
-                <Messages roomId={selectedRoom} messages={messages} />
+                <div className="content">
+                    <SideBar rooms={rooms} roomSelect={roomSelectAndFetchMessages} selectedRoom={selectedRoom} />
+                    <Messages roomId={selectedRoom} messages={messages} />
+                </div>
             </div>
         )
     }

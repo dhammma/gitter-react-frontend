@@ -1,0 +1,98 @@
+.sidebar
+  display flex
+  flex-direction column
+  width 31%
+  overflow hidden
+  border-right 2px solid #e9ebed
+
+  .rooms-search
+    padding 12px
+    input
+      width 100%
+      height 34px
+      padding 6px 26px 6px 30px
+      margin 0
+      background-color #f2f2f2
+      border solid 1px #f2f2f2
+      border-radius 2px
+      font-size 12px
+      line-height normal
+      box-shadow none
+
+    input:focus
+      background-color #fff
+      border solid 1px #d9dbde
+
+  .rooms-list
+    list-style none
+    margin-bottom 0
+    padding-left 0
+    margin-top 0
+
+    .rooms-list-item
+      margin-top 0
+      margin-left 0
+      float none
+      font-size 13px
+      height 62px
+
+      a
+        display block
+        color #000
+        padding 7px 16px
+        clear both
+        border-radius 0
+        cursor pointer
+        text-decoration none
+
+        .room-datetime
+          float right
+          font-size .85em
+          color #b3b3b3
+          text-align right
+
+        .room-avatar
+          margin-right 15px
+          width 48px
+          height 48px
+          border-radius 50%
+          overflow hidden
+          float left
+
+          img
+            border-radius 50%
+            overflow hidden
+
+        .room-wrapper
+          display flex
+          flex-direction column
+          word-wrap break-word
+
+          .room-name
+            color #222
+            font-weight 700
+            margin-top 2px
+            margin-bottom 8px
+            white-space nowrap
+            overflow hidden
+            text-overflow ellipsis
+
+          .room-topic
+            margin-top 5px
+            color grey
+            overflow hidden
+            white-space nowrap
+            text-overflow ellipsis
+
+      &.active
+        background-color #6490b1
+
+        a
+          .room-topic, .room-name, .room-datetime
+            color #fff
+
+        &:hover
+          background-color #6490b1
+
+      &:hover
+        background-color #f2f6fa
