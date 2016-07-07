@@ -45,6 +45,7 @@
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.13.1",
     "material-ui-build": "git+ssh://git@github.com/callemall/material-ui.git",
+    "moment": "^2.14.1",
     "normalize.css": "^4.2.0",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
