@@ -1,6 +1,6 @@
 .messages-container
   display flex
-  flex-direction row
+  flex-direction column
   width 69%
   height 100%
 
@@ -44,3 +44,22 @@
       .message-text
         margin-top 5px
         margin-bottom 5px
+
+  .message-box
+    margin-left 50px
+    margin-right 50px
+    margin-top 10px
+    margin-bottom 10px
+
+    textarea.message-input
+    textarea.message-input:focus
+      font-size 13px
+      min-height 50px
+      resize none
+      width 100%
+      box-shadow none
+      border none
+      outline none
+
+    textarea.message-input:focus
+      box-shadow 0 2px 0 0 #e8e8e8

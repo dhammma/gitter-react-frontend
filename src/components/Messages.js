@@ -1,4 +1,5 @@
 import React from 'react'
+import MessageBox from './MessageBox'
 import moment from 'moment'
 
 const formatDatetime = (datetime) => {
@@ -33,6 +34,9 @@ const Messages = ({roomId, messages}) => (
             <div className="no-chat-selected">
                 Please select a chat to start messaging
             </div>
+        }
+        {roomId ?
+            <MessageBox /> : null
         }
     </div>
 )
