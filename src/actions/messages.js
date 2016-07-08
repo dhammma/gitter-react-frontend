@@ -45,6 +45,9 @@ const fetchMessages = (roomId) => dispatch => {
 
 const shouldFetchMessages = (state, roomId) => {
     return !state.getIn(['messages', roomId])
+        || state.getIn(['rooms', 'list'])
+            .find(room => room.get('id') === roomId)
+            .get('unreadItems')
 }
 
 export const fetchMessagesIfNeeded = (roomId) => (dispatch, getState) => {

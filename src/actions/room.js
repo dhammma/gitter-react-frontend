@@ -44,12 +44,13 @@ export const leaveRoom = (roomId) => {
     }
 }
 
-export const patchRoom = (roomId, patchData) => {
-    return {
+export const patchRoom = (roomId, patchData) => dispatch => {
+    dispatch({
         type: PATCH_ROOM,
         roomId,
         patchData
-    }
+    })
+    dispatch(fetchMessagesIfNeeded(roomId))
 }
 
 export const roomSelectAndFetchMessages = (roomId) => dispatch => {
