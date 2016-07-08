@@ -16,7 +16,8 @@ import {
 } from '../actions/room'
 import {
     REQUEST_MESSAGES,
-    RECEIVE_MESSAGES
+    RECEIVE_MESSAGES,
+    LOAD_MORE
 } from '../actions/messages'
 // reducers
 import user from './user'
@@ -40,6 +41,7 @@ const rootReducer = (state, action) => {
             return room(state, action)
         case REQUEST_MESSAGES:
         case RECEIVE_MESSAGES:
+        case LOAD_MORE:
             return messages(state, action)
         default:
             return state

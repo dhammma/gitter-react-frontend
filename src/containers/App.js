@@ -5,6 +5,7 @@ import SideBar from '../components/SideBar'
 import Messages from '../components/Messages'
 import {fetchUserIfNeeded} from '../actions/user'
 import {roomSelectAndFetchMessages} from '../actions/room'
+import {loadMore} from '../actions/messages'
 
 class App extends React.Component {
     componentDidMount() {
@@ -15,6 +16,8 @@ class App extends React.Component {
             user,
             rooms,
             roomSelectAndFetchMessages,
+            loadMore,
+            msg,
             selectedRoom,
             messages
         } = this.props
@@ -23,7 +26,7 @@ class App extends React.Component {
                 <Header user={user} />
                 <div className="content">
                     <SideBar rooms={rooms} roomSelect={roomSelectAndFetchMessages} selectedRoom={selectedRoom} />
-                    <Messages roomId={selectedRoom} messages={messages} />
+                    <Messages roomId={selectedRoom} messages={messages && messages.toJS()} loadMore={loadMore} msg={msg.toArray()} />
                 </div>
             </div>
         )
@@ -32,6 +35,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => state.toObject()
 const AppContainer = connect(mapStateToProps, {
+    loadMore,
     fetchUserIfNeeded,
     roomSelectAndFetchMessages
 })(App)

@@ -1,9 +1,17 @@
-import fetch from 'isomorphic-fetch'
-import config from '../config/config'
-import _ from 'lodash'
+import {getMessages} from '../sources/gitter'
 
 export const REQUEST_MESSAGES = 'REQUEST_MESSAGES'
 export const RECEIVE_MESSAGES = 'RECEIVE_MESSAGES'
+
+export const LOAD_MORE = 'LOAD_MORE'
+
+export const loadMore = (roomId) => (dispatch) => {
+    // return {
+    //     type: LOAD_MORE,
+    //     roomId
+    // }
+    dispatch(fetchMessagesIfNeeded(roomId))
+}
 
 export const requestMessages = (roomId) => {
     return {
@@ -20,26 +28,9 @@ export const receiveMessages = (roomId, messages) => {
     }
 }
 
-const mapJSONToMessages = (json) => _.map(json, (message) => _.pick(message, [
-    'id',
-    'text',
-    'html',
-    'sent',
-    'fromUser',
-    'unread',
-    'readBy',
-    'urls',
-    'mentions',
-    'issues',
-    'meta',
-    'v'
-]))
-
 const fetchMessages = (roomId) => dispatch => {
     dispatch(requestMessages(roomId))
-    fetch(`https://api.gitter.im/v1/rooms/${roomId}/chatMessages?access_token=${config.token}`)
-        .then(response => response.json())
-        .then(json => mapJSONToMessages(json))
+    getMessages(roomId)
         .then(messages => dispatch(receiveMessages(roomId, messages)))
 }
 

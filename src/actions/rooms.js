@@ -1,13 +1,11 @@
-import fetch from 'isomorphic-fetch'
-import config from '../config/config'
-import _ from 'lodash'
 import fayeClient from '../faye/fayeClient'
+import {getRooms} from '../sources/gitter'
+import {mapRoom} from '../helpers/mappers'
 
 import {
     joinToRoom,
     leaveRoom,
-    patchRoom,
-    mapJSONToRoom
+    patchRoom
 } from './room'
 
 export const REQUEST_ROOMS = 'REQUEST_ROOMS'
@@ -26,14 +24,10 @@ export const receiveRooms = (rooms) => {
     }
 }
 
-const mapJSONToRooms = (json) => _.map(json, mapJSONToRoom)
-
 const fetchRooms = (state) => dispatch => {
     const userId = state.get('user') && state.getIn(['user', 'id'])
     dispatch(requestRooms())
-    fetch(`https://api.gitter.im/v1/user/${userId}/rooms?access_token=${config.token}`)
-        .then(response => response.json())
-        .then(json => mapJSONToRooms(json))
+    getRooms(userId)
         .then(rooms => dispatch(receiveRooms(rooms)))
 }
 
@@ -60,7 +54,7 @@ export const subscribeToRooms = () => (dispatch, getState) => {
                 dispatch(leaveRoom(model.id))
                 break;
             case 'patch':
-                dispatch(patchRoom(model.id, mapJSONToRoom(model)))
+                dispatch(patchRoom(model.id, mapRoom(model)))
                 break
         }
     })

@@ -1,6 +1,4 @@
-import fetch from 'isomorphic-fetch'
-import config from '../config/config'
-import _ from 'lodash'
+import {getUser} from '../sources/gitter'
 
 import {
     fetchRoomsIfNeeded,
@@ -23,20 +21,9 @@ export const receiveUser = (user) => {
     }
 }
 
-const mapJSONToUser = (json) =>  _.pick(_.head(json), [
-    'id',
-    'username',
-    'displayName',
-    'url',
-    'avatarUrlSmall',
-    'avatarUrlMedium'
-])
-
 const fetchUser = () => dispatch => {
     dispatch(requestUser())
-    fetch(`https://api.gitter.im/v1/user?access_token=${config.token}`)
-        .then(response => response.json())
-        .then(json => mapJSONToUser(json))
+    getUser()
         .then(user => dispatch(receiveUser(user)))
         .then(() => dispatch(fetchRoomsIfNeeded()))
         .then(() => dispatch(subscribeToRooms()))

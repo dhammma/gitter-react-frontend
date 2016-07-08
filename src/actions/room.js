@@ -12,24 +12,6 @@ export const roomSelect = (roomId) => {
     }
 }
 
-export const mapJSONToRoom = (json) => _.pick(json, [
-    'id',
-    'name',
-    'topic',
-    'oneToOne',
-    'user',
-    'userCount',
-    'unreadItems',
-    'mentions',
-    'lastAccessTime',
-    'favourite',
-    'lurk',
-    'url',
-    'githubType',
-    'tags',
-    'v'
-])
-
 export const joinToRoom = (room) => {
     return {
         type: JOIN_TO_ROOM,
