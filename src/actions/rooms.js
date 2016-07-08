@@ -1,6 +1,13 @@
 import fetch from 'isomorphic-fetch'
 import config from '../config/config'
 import _ from 'lodash'
+import fayeClient from '../faye/fayeClient'
+
+import {
+    joinToRoom,
+    leaveRoom,
+    mapJSONToRoom
+} from './room'
 
 export const REQUEST_ROOMS = 'REQUEST_ROOMS'
 export const RECEIVE_ROOMS = 'RECEIVE_ROOMS'
@@ -18,23 +25,7 @@ export const receiveRooms = (rooms) => {
     }
 }
 
-const mapJSONToRooms = (json) => _.map(json, (room) => _.pick(room, [
-    'id',
-    'name',
-    'topic',
-    'oneToOne',
-    'user',
-    'userCount',
-    'unreadItems',
-    'mentions',
-    'lastAccessTime',
-    'favourite',
-    'lurk',
-    'url',
-    'githubType',
-    'tags',
-    'v'
-]))
+const mapJSONToRooms = (json) => _.map(json, mapJSONToRoom)
 
 const fetchRooms = (state) => dispatch => {
     const userId = state.get('user') && state.getIn(['user', 'id'])
@@ -55,4 +46,18 @@ export const fetchRoomsIfNeeded = () => (dispatch, getState) => {
     if (shouldFetchRooms(getState())) {
         return dispatch(fetchRooms(getState()))
     }
+}
+
+export const subscribeToRooms = () => (dispatch, getState) => {
+    const userId = getState().getIn(['user', 'id'])
+    fayeClient.subscribe(`/api/v1/user/${userId}/rooms`, (message) => {
+        switch (message.operation) {
+            case 'create':
+                dispatch(joinToRoom(message.model))
+                break;
+            case 'remove':
+                dispatch(leaveRoom(message.model.id))
+                break;
+        }
+    })
 }

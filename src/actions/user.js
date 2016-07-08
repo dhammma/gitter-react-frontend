@@ -2,7 +2,10 @@ import fetch from 'isomorphic-fetch'
 import config from '../config/config'
 import _ from 'lodash'
 
-import {fetchRoomsIfNeeded} from './rooms'
+import {
+    fetchRoomsIfNeeded,
+    subscribeToRooms
+} from './rooms'
 
 export const REQUEST_USER = 'REQUEST_USER'
 export const RECEIVE_USER = 'RECEIVE_USER'
@@ -36,6 +39,7 @@ const fetchUser = () => dispatch => {
         .then(json => mapJSONToUser(json))
         .then(user => dispatch(receiveUser(user)))
         .then(() => dispatch(fetchRoomsIfNeeded()))
+        .then(() => dispatch(subscribeToRooms()))
 }
 
 const shouldFetchUser = (state) => {

@@ -8,7 +8,11 @@ import {
     REQUEST_ROOMS,
     RECEIVE_ROOMS
 } from '../actions/rooms'
-import {ROOM_SELECT} from '../actions/room'
+import {
+    ROOM_SELECT,
+    JOIN_TO_ROOM,
+    LEAVE_ROOM
+} from '../actions/room'
 import {
     REQUEST_MESSAGES,
     RECEIVE_MESSAGES
@@ -29,6 +33,8 @@ const rootReducer = (state, action) => {
         case REQUEST_ROOMS:
             return rooms(state, action)
         case ROOM_SELECT:
+        case JOIN_TO_ROOM:
+        case LEAVE_ROOM:
             return room(state, action)
         case REQUEST_MESSAGES:
         case RECEIVE_MESSAGES:
