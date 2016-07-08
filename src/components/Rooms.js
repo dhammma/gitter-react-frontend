@@ -25,9 +25,11 @@ const Rooms = ({rooms, roomSelect, selectedRoom}) => (
                                 <div className="room-datetime">
                                     {formatDatetime(room.get('lastAccessTime'))}
                                 </div>
-                                <span className="room-badge">
-                                    {room.get('unreadItems')}
-                                </span>
+                                {room.get('unreadItems') > 0 &&
+                                    <span className="room-badge">
+                                        {room.get('unreadItems')}
+                                    </span>
+                                }
                             </div>
                             <div className="room-avatar">
                                 <img src={room.getIn(['user', 'avatarUrlSmall'])} width="48" height="48" />
