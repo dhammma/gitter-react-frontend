@@ -11,7 +11,8 @@ import {
 import {
     ROOM_SELECT,
     JOIN_TO_ROOM,
-    LEAVE_ROOM
+    LEAVE_ROOM,
+    PATCH_ROOM
 } from '../actions/room'
 import {
     REQUEST_MESSAGES,
@@ -35,6 +36,7 @@ const rootReducer = (state, action) => {
         case ROOM_SELECT:
         case JOIN_TO_ROOM:
         case LEAVE_ROOM:
+        case PATCH_ROOM:
             return room(state, action)
         case REQUEST_MESSAGES:
         case RECEIVE_MESSAGES:

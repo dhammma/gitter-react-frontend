@@ -21,8 +21,13 @@ const Rooms = ({rooms, roomSelect, selectedRoom}) => (
                             event.preventDefault()
                             roomSelect(room.get('id'))
                         }}>
-                            <div className="room-datetime">
-                                {formatDatetime(room.get('lastAccessTime'))}
+                            <div className="room-meta">
+                                <div className="room-datetime">
+                                    {formatDatetime(room.get('lastAccessTime'))}
+                                </div>
+                                <span className="room-badge">
+                                    {room.get('unreadItems')}
+                                </span>
                             </div>
                             <div className="room-avatar">
                                 <img src={room.getIn(['user', 'avatarUrlSmall'])} width="48" height="48" />

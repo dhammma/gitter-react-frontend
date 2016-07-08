@@ -3,6 +3,7 @@ import {fetchMessagesIfNeeded} from './messages'
 export const ROOM_SELECT = 'ROOM_SELECT'
 export const JOIN_TO_ROOM = 'JOIN_TO_ROOM'
 export const LEAVE_ROOM = 'LEAVE_ROOM'
+export const PATCH_ROOM = 'PATCH_ROOM'
 
 export const roomSelect = (roomId) => {
     return {
@@ -40,6 +41,14 @@ export const leaveRoom = (roomId) => {
     return {
         type: LEAVE_ROOM,
         roomId
+    }
+}
+
+export const patchRoom = (roomId, patchData) => {
+    return {
+        type: PATCH_ROOM,
+        roomId,
+        patchData
     }
 }
 

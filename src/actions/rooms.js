@@ -6,6 +6,7 @@ import fayeClient from '../faye/fayeClient'
 import {
     joinToRoom,
     leaveRoom,
+    patchRoom,
     mapJSONToRoom
 } from './room'
 
@@ -50,14 +51,17 @@ export const fetchRoomsIfNeeded = () => (dispatch, getState) => {
 
 export const subscribeToRooms = () => (dispatch, getState) => {
     const userId = getState().getIn(['user', 'id'])
-    fayeClient.subscribe(`/api/v1/user/${userId}/rooms`, (message) => {
-        switch (message.operation) {
+    fayeClient.subscribe(`/api/v1/user/${userId}/rooms`, ({operation, model}) => {
+        switch (operation) {
             case 'create':
-                dispatch(joinToRoom(message.model))
+                dispatch(joinToRoom(model))
                 break;
             case 'remove':
-                dispatch(leaveRoom(message.model.id))
+                dispatch(leaveRoom(model.id))
                 break;
+            case 'patch':
+                dispatch(patchRoom(model.id, mapJSONToRoom(model)))
+                break
         }
     })
 }
