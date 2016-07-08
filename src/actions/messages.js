@@ -10,7 +10,7 @@ export const loadMore = (roomId) => (dispatch) => {
     //     type: LOAD_MORE,
     //     roomId
     // }
-    dispatch(fetchMessagesIfNeeded(roomId))
+    // dispatch(fetchMessagesIfNeeded(roomId))
 }
 
 export const requestMessages = (roomId) => {
@@ -28,17 +28,14 @@ export const receiveMessages = (roomId, messages) => {
     }
 }
 
-const fetchMessages = (roomId) => dispatch => {
+const fetchMessages = (roomId, limit, beforeId) => dispatch => {
     dispatch(requestMessages(roomId))
-    getMessages(roomId)
+    getMessages(roomId, limit, beforeId)
         .then(messages => dispatch(receiveMessages(roomId, messages)))
 }
 
 const shouldFetchMessages = (state, roomId) => {
     return !state.getIn(['messages', roomId])
-        || state.getIn(['rooms', 'list'])
-            .find(room => room.get('id') === roomId)
-            .get('unreadItems')
 }
 
 export const fetchMessagesIfNeeded = (roomId) => (dispatch, getState) => {

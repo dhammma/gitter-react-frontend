@@ -11,6 +11,14 @@ const getRoomClassNames = (room, selectedRoom) => classNames({
     'active': room.get('id') === selectedRoom
 })
 
+const getAvatarUrl = (room) => {
+    if (room.get('githubType') === 'REPO') {
+        return room.get('avatar_url')
+    } else {
+        return room.getIn(['user', 'avatarUrlSmall'])
+    }
+}
+
 const Rooms = ({rooms, roomSelect, selectedRoom}) => (
     <div className="rooms">
         <ul className="rooms-list">
@@ -32,7 +40,7 @@ const Rooms = ({rooms, roomSelect, selectedRoom}) => (
                                 }
                             </div>
                             <div className="room-avatar">
-                                <img src={room.getIn(['user', 'avatarUrlSmall'])} width="48" height="48" />
+                                <img src={getAvatarUrl(room)} width="48" height="48" />
                             </div>
                             <div className="room-wrapper">
                                 <div className="room-name">{room.get('name')}</div>

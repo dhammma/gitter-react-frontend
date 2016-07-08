@@ -15,10 +15,9 @@ const onInfiniteLoad = (loadMore, roomId) => () => {
     })
 }
 
-const debug = (val) => console.log(val)
-
-const Messages = ({roomId, messages, loadMore, msg}) => (
+const Messages = ({roomId, messages, loadMore}) => (
     <div className="messages-container">
+        {roomId}
         {roomId ?
             <ChatView onInfiniteLoad={onInfiniteLoad(loadMore, roomId)} className="messages-list" flipped={true}>
                 {_.map(messages[roomId].list, message => (

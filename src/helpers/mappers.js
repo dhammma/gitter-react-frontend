@@ -22,7 +22,9 @@ export const mapRoom = (data) => _.pick(data, [
     'url',
     'githubType',
     'tags',
-    'v'
+    'v',
+
+    'avatar_url'
 ])
 
 export const mapMessage = (data) => _.pick(data, [
@@ -39,3 +41,5 @@ export const mapMessage = (data) => _.pick(data, [
     'meta',
     'v'
 ])
+
+export const mapRepo = (data) => _.pick(data.owner, ['avatar_url'])

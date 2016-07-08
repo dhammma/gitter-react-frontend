@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 const INITIAL_STATE = fromJS({
     token: config.token,
-    msg: _.range(0, 100)
+    messages: {}
 })
 
 export default INITIAL_STATE

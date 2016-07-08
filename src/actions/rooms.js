@@ -5,7 +5,8 @@ import {mapRoom} from '../helpers/mappers'
 import {
     joinToRoom,
     leaveRoom,
-    patchRoom
+    patchRoom,
+    extendRoomIfNeeded
 } from './room'
 
 export const REQUEST_ROOMS = 'REQUEST_ROOMS'
@@ -28,7 +29,10 @@ const fetchRooms = (state) => dispatch => {
     const userId = state.get('user') && state.getIn(['user', 'id'])
     dispatch(requestRooms())
     getRooms(userId)
-        .then(rooms => dispatch(receiveRooms(rooms)))
+        .then(rooms => {
+            dispatch(receiveRooms(rooms))
+            _.map(rooms, room => dispatch(extendRoomIfNeeded(room)))
+        })
 }
 
 const shouldFetchRooms = (state) => {

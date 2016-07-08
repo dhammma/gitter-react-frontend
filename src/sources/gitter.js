@@ -1,14 +1,20 @@
 import qs from 'qs'
 import fetch from 'isomorphic-fetch'
 import config from '../config/config'
-import {mapUser, mapRoom, mapMessage} from '../helpers/mappers'
+import {
+    mapUser, 
+    mapRoom, 
+    mapMessage,
+    mapRepo
+} from '../helpers/mappers'
 import _ from 'lodash'
 
 const {token} = config
 
 const apiUrl = 'https://api.gitter.im/v1'
+const stagingApiUrl = 'https://gitter.im/api_staging/v1'
 
-const callApi = (endpoint, params = {}) => {
+const getCallApiWrapper = apiUrl => (endpoint, params = {}) => {
     const query = qs.stringify({
         access_token: token,
         ...params
@@ -16,6 +22,9 @@ const callApi = (endpoint, params = {}) => {
     return fetch(`${apiUrl}/${endpoint}?${query}`)
         .then(response => response.json())
 }
+
+const callApi = getCallApiWrapper(apiUrl)
+const callStagingApi = getCallApiWrapper(stagingApiUrl)
 
 export const getUser = () => callApi('user')
     .then(data => mapUser(_.head(data)))
@@ -27,3 +36,6 @@ export const getMessages = (roomId, limit = 50, beforeId) => callApi(
     `rooms/${roomId}/chatMessages`,
     {limit, beforeId}
 ).then(data => _.map(data, mapMessage))
+
+export const getRepo = (repo) => callStagingApi('repo-info', {repo})
+    .then(data => mapRepo(data))

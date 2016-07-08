@@ -17,7 +17,6 @@ class App extends React.Component {
             rooms,
             roomSelectAndFetchMessages,
             loadMore,
-            msg,
             selectedRoom,
             messages
         } = this.props
@@ -26,7 +25,7 @@ class App extends React.Component {
                 <Header user={user} />
                 <div className="content">
                     <SideBar rooms={rooms} roomSelect={roomSelectAndFetchMessages} selectedRoom={selectedRoom} />
-                    <Messages roomId={selectedRoom} messages={messages && messages.toJS()} loadMore={loadMore} msg={msg.toArray()} />
+                    <Messages roomId={selectedRoom} messages={messages && messages.toJS()} loadMore={loadMore} />
                 </div>
             </div>
         )

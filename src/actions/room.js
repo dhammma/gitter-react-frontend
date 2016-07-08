@@ -1,4 +1,5 @@
 import {fetchMessagesIfNeeded} from './messages'
+import {getRepo} from '../sources/gitter'
 
 export const ROOM_SELECT = 'ROOM_SELECT'
 export const JOIN_TO_ROOM = 'JOIN_TO_ROOM'
@@ -38,4 +39,16 @@ export const patchRoom = (roomId, patchData) => dispatch => {
 export const roomSelectAndFetchMessages = (roomId) => dispatch => {
     dispatch(roomSelect(roomId))
     dispatch(fetchMessagesIfNeeded(roomId))
+}
+
+export const extendRepoRoom = (roomId, repoName) => dispatch => {
+    getRepo(repoName)
+        .then((repo) => dispatch(patchRoom(roomId, repo)))
+}
+
+export const extendRoomIfNeeded = (room) => dispatch => {
+    switch (room.githubType) {
+        case 'REPO':
+            dispatch(extendRepoRoom(room.id, room.name))
+    }
 }
