@@ -8,6 +8,9 @@ const INITIAL_STATE = fromJS({
     rooms: {
         isFetching: false,
         list: []
+    },
+    user: {
+        isFetching: false
     }
 })
 
