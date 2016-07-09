@@ -42,8 +42,8 @@ export const roomSelectAndFetchMessages = (roomId) => dispatch => {
 }
 
 export const extendRepoRoom = (roomId, repoName) => dispatch => {
-    getRepo(repoName)
-        .then((repo) => dispatch(patchRoom(roomId, repo)))
+    // getRepo(repoName)
+    //     .then((repo) => dispatch(patchRoom(roomId, repo)))
 }
 
 export const extendRoomIfNeeded = (room) => dispatch => {

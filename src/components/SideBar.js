@@ -1,11 +1,15 @@
 import React from 'react'
-import Rooms from './Rooms'
-import Search from './sideBar/Search'
+import RoomList from './RoomList'
+import Search from './Search'
 
 const SideBar = ({rooms, roomSelect, selectedRoom}) => (
     <div className="sidebar">
         <Search />
-        <Rooms rooms={rooms} roomSelect={roomSelect} selectedRoom={selectedRoom} />
+        <RoomList
+            rooms={rooms}
+            roomSelect={roomSelect}
+            selectedRoom={selectedRoom}
+        />
     </div>
 )
 
