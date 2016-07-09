@@ -7,10 +7,7 @@ import {
 const rooms = (state, action) => {
     switch (action.type) {
         case REQUEST_ROOMS:
-            return state.set('rooms', fromJS({
-                isFetching: true,
-                list: []
-            }))
+            return state.setIn(['rooms', 'isFetching'], true)
         case RECEIVE_ROOMS:
             return state
                 .setIn(['rooms', 'isFetching'], false)

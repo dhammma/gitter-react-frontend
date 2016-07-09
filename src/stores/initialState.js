@@ -4,7 +4,11 @@ import _ from 'lodash'
 
 const INITIAL_STATE = fromJS({
     token: config.token,
-    messages: {}
+    messages: {},
+    rooms: {
+        isFetching: false,
+        list: []
+    }
 })
 
 export default INITIAL_STATE
