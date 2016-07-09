@@ -1,8 +1,12 @@
 import React from 'react'
+import moment from 'moment'
 import Room from './Room'
 import {getRoomAvatar} from '../helpers/avatar'
 
-const getRooms = (rooms, roomSelect, selectedRoom) => rooms.map((room) => (
+const getRooms = (rooms, roomSelect, selectedRoom) => rooms
+    .sortBy(room => moment(room.get('lastAccessTime')).unix())
+    .reverse()
+    .map((room) => (
     <Room
         key={room.get('id')}
         id={room.get('id')}
