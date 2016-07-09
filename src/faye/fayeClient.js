@@ -1,11 +1,22 @@
 import Faye from 'faye'
 import config from '../config/config'
-import authExtension from './authExtensions'
 
 const {endpoint, timeout, retry, interval} = config.faye
 
 const fayeClient = new Faye.Client(endpoint, {timeout, retry, interval})
 
-fayeClient.addExtension(authExtension)
+const {token} = config
+
+const outgoing = (message, callback) => {
+    if (message.channel == '/meta/handshake') {
+        if (!message.ext) {
+            message.ext = {}
+        }
+        message.ext.token = token;
+    }
+    callback(message);
+}
+
+fayeClient.addExtension({outgoing})
 
 export default fayeClient
