@@ -1,16 +1,18 @@
-import {fetchMessagesIfNeeded} from './messages'
+import {fetchMessages} from './messages'
 import {getRepo} from '../sources/gitter'
+import {subscribeToMessages} from './faye'
 
 export const ROOM_SELECT = 'ROOM_SELECT'
 export const JOIN_TO_ROOM = 'JOIN_TO_ROOM'
 export const LEAVE_ROOM = 'LEAVE_ROOM'
 export const PATCH_ROOM = 'PATCH_ROOM'
 
-export const roomSelect = (roomId) => {
-    return {
+export const roomSelect = (roomId) => dispatch => {
+    dispatch({
         type: ROOM_SELECT,
         roomId
-    }
+    })
+    dispatch(fetchMessages(roomId))
 }
 
 export const joinToRoom = (room) => {
@@ -33,22 +35,17 @@ export const patchRoom = (roomId, patchData) => dispatch => {
         roomId,
         patchData
     })
-    dispatch(fetchMessagesIfNeeded(roomId))
+    dispatch(fetchMessages(roomId))
 }
 
-export const roomSelectAndFetchMessages = (roomId) => dispatch => {
-    dispatch(roomSelect(roomId))
-    dispatch(fetchMessagesIfNeeded(roomId))
+export const getRepoRoomAvatar = (roomId, repoName) => (dispatch) => {
+    getRepo(repoName)
+        .then((repo) => dispatch(patchRoom(roomId, repo)))
 }
 
-export const extendRepoRoom = (roomId, repoName) => dispatch => {
-    // getRepo(repoName)
-    //     .then((repo) => dispatch(patchRoom(roomId, repo)))
-}
-
-export const extendRoomIfNeeded = (room) => dispatch => {
+export const checkRoomAvatars = (room) => dispatch => {
     switch (room.githubType) {
         case 'REPO':
-            dispatch(extendRepoRoom(room.id, room.name))
+            //dispatch(extendRepoRoom(room.id, room.name))
     }
 }

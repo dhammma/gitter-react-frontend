@@ -5,6 +5,8 @@ export const RECEIVE_MESSAGES = 'RECEIVE_MESSAGES'
 
 export const LOAD_MORE = 'LOAD_MORE'
 
+export const NEW_MESSAGE = 'NEW_MESSAGE'
+
 export const loadMore = (roomId) => (dispatch) => {
     // return {
     //     type: LOAD_MORE,
@@ -13,14 +15,14 @@ export const loadMore = (roomId) => (dispatch) => {
     // dispatch(fetchMessagesIfNeeded(roomId))
 }
 
-export const requestMessages = (roomId) => {
+const requestMessages = (roomId) => {
     return {
         type: REQUEST_MESSAGES,
         roomId
     }
 }
 
-export const receiveMessages = (roomId, messages) => {
+const receiveMessages = (roomId, messages) => {
     return {
         type: RECEIVE_MESSAGES,
         roomId,
@@ -28,18 +30,20 @@ export const receiveMessages = (roomId, messages) => {
     }
 }
 
-const fetchMessages = (roomId, limit, beforeId) => dispatch => {
-    dispatch(requestMessages(roomId))
-    getMessages(roomId, limit, beforeId)
-        .then(messages => dispatch(receiveMessages(roomId, messages)))
+export const newMessage = (roomId, message) => {
+    return {
+        type: NEW_MESSAGE,
+        roomId,
+        message
+    }
 }
 
-const shouldFetchMessages = (state, roomId) => {
-    return !state.getIn(['messages', roomId])
-}
+const shouldFetchMessages = (state, roomId) => !state.getIn(['messages', roomId])
 
-export const fetchMessagesIfNeeded = (roomId) => (dispatch, getState) => {
+export const fetchMessages = (roomId, limit, beforeId) => (dispatch, getState) => {
     if (shouldFetchMessages(getState(), roomId)) {
-        return dispatch(fetchMessages(roomId))
+        dispatch(requestMessages(roomId))
+        getMessages(roomId, limit, beforeId)
+            .then(messages => dispatch(receiveMessages(roomId, messages)))
     }
 }

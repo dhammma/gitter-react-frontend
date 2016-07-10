@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import Header from './Header'
 import SideBar from './SideBar'
 import MessageList from './MessageList'
-import {fetchUserIfNeeded} from '../actions/user'
-import {roomSelectAndFetchMessages} from '../actions/room'
+import {fetchUser} from '../actions/user'
+import {roomSelect} from '../actions/room'
 import {loadMore} from '../actions/messages'
 import {searchQuery} from '../actions/search'
 
@@ -15,10 +15,8 @@ class App extends React.Component {
                 <Header user={this.props.user} />
                 <div className="content">
                     <SideBar
-                        rooms={this.props.search.get('query') !== ''
-                            ? this.props.search.get('rooms')
-                            : this.props.rooms.get('list')}
-                        roomSelect={this.props.roomSelectAndFetchMessages}
+                        rooms={this.getRooms()}
+                        roomSelect={this.props.roomSelect}
                         selectedRoom={this.props.selectedRoom}
                         searchQuery={this.props.searchQuery}
                     />
@@ -31,16 +29,21 @@ class App extends React.Component {
             </div>
         )
     }
+    getRooms() {
+        return this.props.search.get('query') !== ''
+            ? this.props.search.get('rooms')
+            : this.props.rooms.get('list')
+    }
     componentDidMount() {
-        this.props.fetchUserIfNeeded()
+        this.props.fetchUser()
     }
 }
 
 const mapStateToProps = (state) => state.toObject()
 const AppContainer = connect(mapStateToProps, {
     loadMore,
-    fetchUserIfNeeded,
-    roomSelectAndFetchMessages,
+    fetchUser,
+    roomSelect,
     searchQuery
 })(App)
 
