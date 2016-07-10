@@ -11,6 +11,10 @@ const INITIAL_STATE = fromJS({
     },
     user: {
         isFetching: false
+    },
+    search: {
+        query: '',
+        isFetching: false
     }
 })
 
