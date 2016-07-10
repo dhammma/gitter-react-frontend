@@ -17,13 +17,20 @@ import {
 import {
     REQUEST_MESSAGES,
     RECEIVE_MESSAGES,
-    LOAD_MORE
+    LOAD_MORE,
+    NEW_MESSAGE
 } from '../actions/messages'
+import {
+    SEARCH_QUERY,
+    REQUEST_SEARCH,
+    RECEIVE_SEARCH
+} from '../actions/search'
 // reducers
 import user from './user'
 import rooms from './rooms'
 import room from './room'
 import messages from './messages'
+import search from './search'
 
 // todo: need combine reducers?
 const rootReducer = (state, action) => {
@@ -42,7 +49,12 @@ const rootReducer = (state, action) => {
         case REQUEST_MESSAGES:
         case RECEIVE_MESSAGES:
         case LOAD_MORE:
+        case NEW_MESSAGE:
             return messages(state, action)
+        case SEARCH_QUERY:
+        case REQUEST_SEARCH:
+        case RECEIVE_SEARCH:
+            return search(state, action)
         default:
             return state
     }

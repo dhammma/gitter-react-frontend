@@ -6,6 +6,7 @@ import MessageList from './MessageList'
 import {fetchUserIfNeeded} from '../actions/user'
 import {roomSelectAndFetchMessages} from '../actions/room'
 import {loadMore} from '../actions/messages'
+import {searchQuery} from '../actions/search'
 
 class App extends React.Component {
     render() {
@@ -14,9 +15,12 @@ class App extends React.Component {
                 <Header user={this.props.user} />
                 <div className="content">
                     <SideBar
-                        rooms={this.props.rooms}
+                        rooms={this.props.search.get('query') !== ''
+                            ? this.props.search.get('rooms')
+                            : this.props.rooms.get('list')}
                         roomSelect={this.props.roomSelectAndFetchMessages}
                         selectedRoom={this.props.selectedRoom}
+                        searchQuery={this.props.searchQuery}
                     />
                     <MessageList
                         roomId={this.props.selectedRoom}
@@ -36,7 +40,8 @@ const mapStateToProps = (state) => state.toObject()
 const AppContainer = connect(mapStateToProps, {
     loadMore,
     fetchUserIfNeeded,
-    roomSelectAndFetchMessages
+    roomSelectAndFetchMessages,
+    searchQuery
 })(App)
 
 export default AppContainer

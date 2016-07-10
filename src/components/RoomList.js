@@ -23,7 +23,7 @@ const getRooms = (rooms, roomSelect, selectedRoom) => rooms
 const RoomList = ({rooms, roomSelect, selectedRoom}) => (
     <div className="rooms">
         <ul className="rooms-list">
-            {rooms && rooms.get('list') && getRooms(rooms.get('list'), roomSelect, selectedRoom)}
+            {rooms && getRooms(rooms, roomSelect, selectedRoom)}
         </ul>
     </div>
 )

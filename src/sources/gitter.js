@@ -37,5 +37,8 @@ export const getMessages = (roomId, limit = 50, beforeId) => callApi(
     {limit, beforeId}
 ).then(data => _.map(data, mapMessage))
 
+export const searchRooms = (q) => callApi(`rooms`, {q})
+    .then(data => _.map(data.results, mapRoom))
+
 export const getRepo = (repo) => callStagingApi('repo-info', {repo})
     .then(data => mapRepo(data))
