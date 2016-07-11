@@ -1,4 +1,4 @@
-import {getMessages, postMessage} from '../sources/gitter'
+import {getMessages, postMessage, markReadItems} from '../sources/gitter'
 
 export const REQUEST_MESSAGES = 'REQUEST_MESSAGES'
 export const RECEIVE_MESSAGES = 'RECEIVE_MESSAGES'
@@ -9,6 +9,23 @@ export const LOAD_UPDATE = 'LOAD_UPDATE'
 export const NEW_MESSAGE = 'NEW_MESSAGE'
 export const EDIT_MESSAGE = 'EDIT_MESSAGE'
 export const SEND_MESSAGE = 'SEND_MESSAGE'
+
+export const MARK_READ = 'MARK_READ'
+
+export const markRead = (roomId, chat) => (dispatch, getState) => {
+    const userId = getState().user.get('id')
+    markReadItems(userId, roomId, chat)
+        .then(() => dispatch({type: MARK_READ, roomId, chat}))
+}
+
+export const markAllRead = (roomId) => (dispatch, getState) => {
+    const chat = getState().messages.getIn([roomId, 'list'])
+        .filter(message => message.get('unread'))
+        .map(message => message.get('id'))
+    if (chat.size) {
+        dispatch(markRead(roomId, chat))
+    }
+}
 
 const requestMessages = (roomId) => {
     return {
@@ -25,12 +42,13 @@ const receiveMessages = (roomId, messages) => {
     }
 }
 
-export const newMessage = (roomId, message) => {
-    return {
+export const newMessage = (roomId, message) => dispatch => {
+    dispatch(markRead(roomId, [message.id]))
+    dispatch({
         type: NEW_MESSAGE,
         roomId,
         message
-    }
+    })
 }
 
 const shouldFetchMessages = (state, roomId) => !state.messages.get(roomId)
@@ -40,6 +58,7 @@ export const fetchMessages = (roomId, limit, beforeId) => (dispatch, getState) =
         dispatch(requestMessages(roomId))
         getMessages(roomId, limit, beforeId)
             .then(messages => dispatch(receiveMessages(roomId, messages)))
+            .then(() => dispatch(markAllRead(roomId)))
     }
 }
 
@@ -53,6 +72,7 @@ export const loadMore = (roomId) => (dispatch, getState) => {
                 roomId,
                 messages
             }))
+            .then(() => dispatch(markAllRead(roomId)))
     }
 }
 
@@ -70,6 +90,7 @@ export const loadUpdate = (roomId) => (dispatch, getState) => {
                 roomId,
                 messages
             }))
+            .then(() => dispatch(markAllRead(roomId)))
     }
 }
 
@@ -88,4 +109,3 @@ export const sendMessage = (roomId) => (dispatch, getState) => {
         postMessage(roomId, text)
     }
 }
-

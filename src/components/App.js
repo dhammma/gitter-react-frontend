@@ -9,7 +9,7 @@ import {
     joinToRoom,
     leaveFromRoom
 } from '../actions/room'
-import {loadMore, sendMessage, editMessage} from '../actions/messages'
+import {loadMore, sendMessage, editMessage, markRead} from '../actions/messages'
 import {searchQuery} from '../actions/search'
 
 class App extends React.Component {
@@ -90,7 +90,8 @@ const AppContainer = connect(mapStateToProps, {
     joinToRoom,
     leaveFromRoom,
     sendMessage,
-    editMessage
+    editMessage,
+    markRead
 })(App)
 
 export default AppContainer

@@ -46,6 +46,18 @@ export const postMessage = (roomId, text) => callApi(`rooms/${roomId}/chatMessag
 })
     .then(data => mapMessage(data))
 
+export const markReadItems = (userId, roomId, chat) => callApi(
+    `user/${userId}/rooms/${roomId}/unreadItems`,
+    {},
+    {
+        method: 'POST',
+        body: JSON.stringify({chat}),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+)
+
 export const searchRooms = (q) => callApi(`rooms`, {q})
     .then(data => _.map(data.results, mapRoom))
 
