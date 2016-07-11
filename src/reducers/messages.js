@@ -37,7 +37,7 @@ const messages = (state = Map(), action) => {
                     [roomId, 'list'],
                     state
                         .getIn([roomId, 'list'])
-                        .push(action.message)
+                        .push(fromJS(action.message))
                 )
         default:
             return state
