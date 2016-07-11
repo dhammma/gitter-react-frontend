@@ -32,9 +32,9 @@ export const getUser = () => callApi('user')
 export const getRooms = (roomId) => callApi(`user/${roomId}/rooms`)
     .then(data => _.map(data, mapRoom))
 
-export const getMessages = (roomId, limit = 50, beforeId) => callApi(
+export const getMessages = (roomId, limit = 50, beforeId, afterId) => callApi(
     `rooms/${roomId}/chatMessages`,
-    {limit, beforeId}
+    {limit, beforeId, afterId}
 ).then(data => _.map(data, mapMessage))
 
 export const searchRooms = (q) => callApi(`rooms`, {q})

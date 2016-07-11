@@ -1,4 +1,4 @@
-import {fetchMessages} from './messages'
+import {fetchMessages, loadUpdate} from './messages'
 import {getRepo} from '../sources/gitter'
 import {subscribeToMessages} from './faye'
 
@@ -13,6 +13,7 @@ export const roomSelect = (roomId) => dispatch => {
         roomId
     })
     dispatch(fetchMessages(roomId))
+    dispatch(loadUpdate(roomId))
 }
 
 export const joinToRoom = (room) => {

@@ -2,7 +2,8 @@ import {fromJS, List, Map} from 'immutable'
 import {
     REQUEST_MESSAGES,
     RECEIVE_MESSAGES,
-    LOAD_MORE
+    LOAD_MORE,
+    LOAD_UPDATE
 } from '../actions/messages'
 
 const messages = (state = Map(), action) => {
@@ -12,15 +13,23 @@ const messages = (state = Map(), action) => {
         case REQUEST_MESSAGES:
             return state
                 .setIn([roomId, 'isFetching'], true)
-        case RECEIVE_MESSAGES:
+        case LOAD_UPDATE:
+        case RECEIVE_MESSAGES:{
             const currentList = state.getIn([roomId, 'list']) || List()
             const updatedList = currentList.concat(fromJS(action.messages))
 
             return state
                 .setIn([roomId, 'isFetching'], false)
                 .setIn([roomId, 'list'], updatedList)
-        case LOAD_MORE:
+        }
+        case LOAD_MORE: {
+            const currentList = state.getIn([roomId, 'list']) || List()
+            const updatedList = fromJS(action.messages).concat(currentList)
+
             return state
+                .setIn([roomId, 'isFetching'], false)
+                .setIn([roomId, 'list'], updatedList)
+        }
         default:
             return state
     }
