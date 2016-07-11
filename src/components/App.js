@@ -47,9 +47,11 @@ class App extends React.Component {
     }
     getSelectedRoom() {
         const roomId = this.props.rooms.get('selectedId')
+        const rooms = this.getRooms()
 
-        return this.getRooms()
-            .find(room => room.get('id') === roomId)
+        return rooms
+            ? rooms.find(room => room.get('id') === roomId)
+            : null
     }
     componentDidMount() {
         this.props.fetchUser()
