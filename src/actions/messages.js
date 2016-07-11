@@ -1,4 +1,4 @@
-import {getMessages} from '../sources/gitter'
+import {getMessages, postMessage} from '../sources/gitter'
 
 export const REQUEST_MESSAGES = 'REQUEST_MESSAGES'
 export const RECEIVE_MESSAGES = 'RECEIVE_MESSAGES'
@@ -7,6 +7,8 @@ export const LOAD_MORE = 'LOAD_MORE'
 export const LOAD_UPDATE = 'LOAD_UPDATE'
 
 export const NEW_MESSAGE = 'NEW_MESSAGE'
+export const EDIT_MESSAGE = 'EDIT_MESSAGE'
+export const SEND_MESSAGE = 'SEND_MESSAGE'
 
 const requestMessages = (roomId) => {
     return {
@@ -56,7 +58,10 @@ export const loadMore = (roomId) => (dispatch, getState) => {
 
 export const loadUpdate = (roomId) => (dispatch, getState) => {
     if (!getState().messages.getIn([roomId, 'isFetching'])) {
-        const afterId = getState().messages.getIn([roomId, 'list']).last().get('id')
+        const lastMessage = getState().messages.getIn([roomId, 'list']).last()
+        const afterId = lastMessage
+            ? lastMessage.get('id')
+            : ''
         const limit = getState().rooms.getIn([roomId, 'unreadItems'])
         dispatch(requestMessages(roomId))
         getMessages(roomId, limit, undefined, afterId)
@@ -67,3 +72,20 @@ export const loadUpdate = (roomId) => (dispatch, getState) => {
             }))
     }
 }
+
+export const editMessage = (roomId, text) => {
+    return {
+        type: EDIT_MESSAGE,
+        roomId,
+        text
+    }
+}
+
+export const sendMessage = (roomId) => (dispatch, getState) => {
+    const text = getState().messages.getIn([roomId, 'text'])
+    if (text) {
+        dispatch({type: SEND_MESSAGE, roomId, text})
+        postMessage(roomId, text)
+    }
+}
+

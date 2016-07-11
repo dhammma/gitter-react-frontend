@@ -9,7 +9,7 @@ import {
     joinToRoom,
     leaveFromRoom
 } from '../actions/room'
-import {loadMore} from '../actions/messages'
+import {loadMore, sendMessage, editMessage} from '../actions/messages'
 import {searchQuery} from '../actions/search'
 
 class App extends React.Component {
@@ -35,6 +35,9 @@ class App extends React.Component {
                         isJoined={this.isJoinedToRoom()}
                         joinToRoom={this.props.joinToRoom}
                         leaveFromRoom={this.props.leaveFromRoom}
+                        sendMessage={this.props.sendMessage}
+                        editMessage={this.props.editMessage}
+                        text={this.getText()}
                     />
                 </div>
             </div>
@@ -67,6 +70,12 @@ class App extends React.Component {
 
         return rooms.find(room => room.get('id') === roomId)
     }
+    getText() {
+        const roomId = this.props.rooms.get('selectedId')
+        const text = this.props.messages.getIn([roomId, 'text'])
+
+        return text && ''
+    }
     componentDidMount() {
         this.props.fetchUser()
     }
@@ -79,7 +88,9 @@ const AppContainer = connect(mapStateToProps, {
     roomSelect,
     searchQuery,
     joinToRoom,
-    leaveFromRoom
+    leaveFromRoom,
+    sendMessage,
+    editMessage
 })(App)
 
 export default AppContainer

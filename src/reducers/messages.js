@@ -4,7 +4,9 @@ import {
     RECEIVE_MESSAGES,
     LOAD_MORE,
     LOAD_UPDATE,
-    NEW_MESSAGE
+    NEW_MESSAGE,
+    EDIT_MESSAGE,
+    SEND_MESSAGE
 } from '../actions/messages'
 
 const messages = (state = Map(), action) => {
@@ -39,6 +41,12 @@ const messages = (state = Map(), action) => {
                         .getIn([roomId, 'list'])
                         .push(fromJS(action.message))
                 )
+        case EDIT_MESSAGE:
+            return state
+                .setIn([roomId, 'text'], action.text)
+        case SEND_MESSAGE:
+            return state
+                .setIn([roomId, 'text'], '')
         default:
             return state
     }

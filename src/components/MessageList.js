@@ -21,7 +21,18 @@ const getMessages = (messages) => _.map(messages, message => (
     />
 ))
 
-const MessageList = ({roomId, uri, messages, loadMore, isJoined, joinToRoom, leaveFromRoom}) => (
+const MessageList = ({
+    roomId,
+    uri,
+    messages,
+    loadMore,
+    isJoined,
+    joinToRoom,
+    leaveFromRoom,
+    sendMessage,
+    editMessage,
+    text
+}) => (
     <div className="messages-container">
         {isJoined &&
             <div className="messages-controls">
@@ -37,7 +48,12 @@ const MessageList = ({roomId, uri, messages, loadMore, isJoined, joinToRoom, lea
             </div>
         }
         {roomId && (isJoined ?
-            <MessageBox /> :
+            <MessageBox
+                sendMessage={sendMessage}
+                editMessage={editMessage}
+                roomId={roomId}
+                text={text}
+            /> :
             <div className="join-room">
                 <a href="#" onClick={() => joinToRoom(uri)}>Join</a>
             </div>
