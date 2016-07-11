@@ -11,7 +11,7 @@ const onInfiniteLoad = (loadMore, roomId) => () => {
     })
 }
 
-const getMessages = (messages) => _.map(messages.list, message => (
+const getMessages = (messages) => _.map(messages, message => (
     <Message
         key={message.id}
         user={message.fromUser.displayName}
@@ -26,7 +26,7 @@ const MessageList = ({roomId, messages, loadMore}) => (
         {roomId}
         {roomId ?
             <ChatView onInfiniteLoad={onInfiniteLoad(loadMore, roomId)} className="messages-list" flipped={true}>
-                {getMessages(messages[roomId])}
+                {getMessages(messages)}
             </ChatView> :
             <div className="no-chat-selected">
                 Please select a chat to start messaging

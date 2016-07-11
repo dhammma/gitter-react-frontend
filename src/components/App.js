@@ -22,7 +22,7 @@ class App extends React.Component {
                     />
                     <MessageList
                         roomId={this.props.rooms.get('selectedId')}
-                        messages={this.props.messages && this.props.messages.toJS()}
+                        messages={this.getMessages()}
                         loadMore={this.props.loadMore}
                     />
                 </div>
@@ -33,6 +33,16 @@ class App extends React.Component {
         return this.props.search.get('query') !== ''
             ? this.props.search.get('rooms')
             : this.props.rooms.get('list')
+    }
+    getMessages() {
+        const roomId = this.props.rooms.get('selectedId')
+        const messages = this.props.messages.getIn([roomId, 'list'])
+
+        if (messages) {
+            return messages.reverse().toJS()
+        } else {
+            return []
+        }
     }
     componentDidMount() {
         this.props.fetchUser()
