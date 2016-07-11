@@ -11,6 +11,7 @@ import {
 } from '../actions/room'
 import {loadMore, sendMessage, editMessage, markRead} from '../actions/messages'
 import {searchQuery} from '../actions/search'
+import {receiveToken} from '../actions/login'
 
 class App extends React.Component {
     render() {
@@ -76,7 +77,10 @@ class App extends React.Component {
 
         return text && ''
     }
-    componentDidMount() {
+    componentWillMount() {
+        const token = document.getElementById('app').getAttribute('data-token')
+        localStorage.setItem('token', token)
+        this.props.receiveToken(token)
         this.props.fetchUser()
     }
 }
@@ -91,7 +95,8 @@ const AppContainer = connect(mapStateToProps, {
     leaveFromRoom,
     sendMessage,
     editMessage,
-    markRead
+    markRead,
+    receiveToken
 })(App)
 
 export default AppContainer

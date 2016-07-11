@@ -5,7 +5,7 @@ const {endpoint, timeout, retry, interval} = config.faye
 
 const fayeClient = new Faye.Client(endpoint, {timeout, retry, interval})
 
-const {token} = config
+const token = localStorage.getItem('token')
 
 const outgoing = (message, callback) => {
     if (message.channel == '/meta/handshake') {

@@ -9,7 +9,7 @@ import {
 } from '../helpers/mappers'
 import _ from 'lodash'
 
-const {token} = config
+const token = localStorage.getItem('token')
 
 const apiUrl = 'https://api.gitter.im/v1'
 const stagingApiUrl = 'https://gitter.im/api_staging/v1'

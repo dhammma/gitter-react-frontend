@@ -3,6 +3,7 @@ import {
     REQUEST_USER,
     RECEIVE_USER
 } from '../actions/user'
+import {RECEIVE_TOKEN} from '../actions/login'
 
 const INITIAL_STATE = fromJS({
     isFetching: false
@@ -17,6 +18,9 @@ const user = (state = INITIAL_STATE, action) => {
             return state
                 .set('isFetching', false)
                 .merge(action.user)
+        case RECEIVE_TOKEN:
+            return state
+                .set('token', action.token)
         default:
             return state
     }
