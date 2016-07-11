@@ -21,9 +21,13 @@ const getMessages = (messages) => _.map(messages, message => (
     />
 ))
 
-const MessageList = ({roomId, messages, loadMore}) => (
+const MessageList = ({roomId, uri, messages, loadMore, isJoined, joinToRoom, leaveFromRoom}) => (
     <div className="messages-container">
-        {roomId}
+        {isJoined &&
+            <div className="messages-controls">
+                <a href="#" className="joined" onClick={() => leaveFromRoom(roomId)}>Leave a room</a>
+            </div>
+        }
         {roomId ?
             <ChatView onInfiniteLoad={onInfiniteLoad(loadMore, roomId)} className="messages-list" flipped={true}>
                 {getMessages(messages)}
@@ -32,9 +36,12 @@ const MessageList = ({roomId, messages, loadMore}) => (
                 Please select a chat to start messaging
             </div>
         }
-        {roomId ?
-            <MessageBox /> : null
-        }
+        {roomId && (isJoined ?
+            <MessageBox /> :
+            <div className="join-room">
+                <a href="#" onClick={() => joinToRoom(uri)}>Join</a>
+            </div>
+        )}
     </div>
 )
 

@@ -19,6 +19,7 @@ export const mapRoom = (data) => _.pick(data, [
     'lastAccessTime',
     'favourite',
     'lurk',
+    'uri',
     'url',
     'githubType',
     'tags',

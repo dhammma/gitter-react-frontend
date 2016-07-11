@@ -5,8 +5,8 @@ import {
 } from '../actions/rooms'
 import {
     ROOM_SELECT,
-    JOIN_TO_ROOM,
-    LEAVE_ROOM,
+    JOINED_TO_ROOM,
+    LEAVED_FROM_ROOM,
     PATCH_ROOM
 } from '../actions/room'
 
@@ -28,7 +28,7 @@ const rooms = (state = INITIAL_STATE, action) => {
         case ROOM_SELECT:
             return state
                 .set('selectedId', action.roomId)
-        case JOIN_TO_ROOM:
+        case JOINED_TO_ROOM:
             return state
                 .set(
                     'list',
@@ -36,7 +36,7 @@ const rooms = (state = INITIAL_STATE, action) => {
                         .get('list')
                         .push(fromJS(action.room))
                 )
-        case LEAVE_ROOM:
+        case LEAVED_FROM_ROOM:
             return state.set('list', state.get('list').remove(
                 state
                     .get('list')

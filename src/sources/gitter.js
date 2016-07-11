@@ -14,12 +14,12 @@ const {token} = config
 const apiUrl = 'https://api.gitter.im/v1'
 const stagingApiUrl = 'https://gitter.im/api_staging/v1'
 
-const getCallApiWrapper = apiUrl => (endpoint, params = {}) => {
+const getCallApiWrapper = apiUrl => (endpoint, params = {}, options = {}) => {
     const query = qs.stringify({
         access_token: token,
         ...params
     })
-    return fetch(`${apiUrl}/${endpoint}?${query}`)
+    return fetch(`${apiUrl}/${endpoint}?${query}`, options)
         .then(response => response.json())
 }
 
@@ -39,6 +39,20 @@ export const getMessages = (roomId, limit = 50, beforeId, afterId) => callApi(
 
 export const searchRooms = (q) => callApi(`rooms`, {q})
     .then(data => _.map(data.results, mapRoom))
+
+export const joinRoom = (uri) => callApi('rooms', {}, {
+    method: 'POST',
+    body: JSON.stringify({uri}),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+
+export const leaveRoom = (roomId, userId) => callApi(
+    `rooms/${roomId}/users/${userId}`,
+    {},
+    {method: 'DELETE'}
+)
 
 export const getRepo = (repo) => callStagingApi('repo-info', {repo})
     .then(data => mapRepo(data))

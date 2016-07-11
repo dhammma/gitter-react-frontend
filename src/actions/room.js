@@ -1,10 +1,12 @@
 import {fetchMessages, loadUpdate} from './messages'
-import {getRepo} from '../sources/gitter'
+import {getRepo, joinRoom, leaveRoom} from '../sources/gitter'
 import {subscribeToMessages} from './faye'
 
 export const ROOM_SELECT = 'ROOM_SELECT'
 export const JOIN_TO_ROOM = 'JOIN_TO_ROOM'
-export const LEAVE_ROOM = 'LEAVE_ROOM'
+export const LEAVE_FROM_ROOM = 'LEAVE_FROM_ROOM'
+export const JOINED_TO_ROOM = 'JOINED_TO_ROOM'
+export const LEAVED_FROM_ROOM = 'LEAVED_FROM_ROOM'
 export const PATCH_ROOM = 'PATCH_ROOM'
 
 export const roomSelect = (roomId) => dispatch => {
@@ -16,16 +18,16 @@ export const roomSelect = (roomId) => dispatch => {
     dispatch(loadUpdate(roomId))
 }
 
-export const joinToRoom = (room) => {
+export const joinedToRoom = (room) => {
     return {
-        type: JOIN_TO_ROOM,
+        type: JOINED_TO_ROOM,
         room
     }
 }
 
-export const leaveRoom = (roomId) => {
+export const leavedFromRoom = (roomId) => {
     return {
-        type: LEAVE_ROOM,
+        type: LEAVED_FROM_ROOM,
         roomId
     }
 }
@@ -49,4 +51,16 @@ export const checkRoomAvatars = (room) => dispatch => {
         case 'REPO':
             //dispatch(extendRepoRoom(room.id, room.name))
     }
+}
+
+export const joinToRoom = (roomUri) => (dispatch) => {
+    console.log(roomUri)
+    dispatch({type: JOIN_TO_ROOM, roomUri})
+    joinRoom(roomUri)
+}
+
+export const leaveFromRoom = (roomId) => (dispatch, getState) => {
+    dispatch({type: LEAVE_FROM_ROOM})
+    const userId = getState().user.get('id')
+    leaveRoom(roomId, userId)
 }

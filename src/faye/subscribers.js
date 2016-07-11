@@ -1,14 +1,14 @@
-import {joinToRoom, leaveRoom, patchRoom} from '../actions/room'
+import {joinedToRoom, leavedFromRoom, patchRoom} from '../actions/room'
 import {mapRoom} from '../helpers/mappers'
 import {newMessage} from '../actions/messages'
 
 const roomsSubscriber = (dispatch) => (({operation, model}) => {
     switch (operation) {
         case 'create':
-            dispatch(joinToRoom(model))
+            dispatch(joinedToRoom(model))
             break;
         case 'remove':
-            dispatch(leaveRoom(model.id))
+            dispatch(leavedFromRoom(model.id))
             break;
         case 'patch':
             dispatch(patchRoom(model.id, mapRoom(model)))

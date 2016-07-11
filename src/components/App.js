@@ -4,7 +4,11 @@ import Header from './Header'
 import SideBar from './SideBar'
 import MessageList from './MessageList'
 import {fetchUser} from '../actions/user'
-import {roomSelect} from '../actions/room'
+import {
+    roomSelect,
+    joinToRoom,
+    leaveFromRoom
+} from '../actions/room'
 import {loadMore} from '../actions/messages'
 import {searchQuery} from '../actions/search'
 
@@ -25,8 +29,12 @@ class App extends React.Component {
                     />
                     <MessageList
                         roomId={this.props.rooms.get('selectedId')}
+                        uri={this.getSelectedRoom() && this.getSelectedRoom().get('uri')}
                         messages={this.getMessages()}
                         loadMore={this.props.loadMore}
+                        isJoined={this.isJoinedToRoom()}
+                        joinToRoom={this.props.joinToRoom}
+                        leaveFromRoom={this.props.leaveFromRoom}
                     />
                 </div>
             </div>
@@ -53,6 +61,12 @@ class App extends React.Component {
             ? rooms.find(room => room.get('id') === roomId)
             : null
     }
+    isJoinedToRoom() {
+        const roomId = this.props.rooms.get('selectedId')
+        const rooms = this.props.rooms.get('list')
+
+        return rooms.find(room => room.get('id') === roomId)
+    }
     componentDidMount() {
         this.props.fetchUser()
     }
@@ -63,7 +77,9 @@ const AppContainer = connect(mapStateToProps, {
     loadMore,
     fetchUser,
     roomSelect,
-    searchQuery
+    searchQuery,
+    joinToRoom,
+    leaveFromRoom
 })(App)
 
 export default AppContainer
