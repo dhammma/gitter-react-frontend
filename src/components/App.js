@@ -38,11 +38,9 @@ class App extends React.Component {
         const roomId = this.props.rooms.get('selectedId')
         const messages = this.props.messages.getIn([roomId, 'list'])
 
-        if (messages) {
-            return messages.reverse().toJS()
-        } else {
-            return []
-        }
+        return messages
+            ? messages.reverse().toJS()
+            : []
     }
     componentDidMount() {
         this.props.fetchUser()
