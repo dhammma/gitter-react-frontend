@@ -12,7 +12,10 @@ class App extends React.Component {
     render() {
         return (
             <div className="app-container">
-                <Header user={this.props.user} />
+                <Header
+                    room={this.getSelectedRoom()}
+                    user={this.props.user}
+                />
                 <div className="content">
                     <SideBar
                         rooms={this.getRooms()}
@@ -41,6 +44,12 @@ class App extends React.Component {
         return messages
             ? messages.reverse().toJS()
             : []
+    }
+    getSelectedRoom() {
+        const roomId = this.props.rooms.get('selectedId')
+
+        return this.getRooms()
+            .find(room => room.get('id') === roomId)
     }
     componentDidMount() {
         this.props.fetchUser()
