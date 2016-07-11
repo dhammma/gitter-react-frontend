@@ -1,6 +1,6 @@
 import {fetchMessages, loadUpdate} from './messages'
 import {getRepo, joinRoom, leaveRoom} from '../sources/gitter'
-import {subscribeToMessages} from './faye'
+import {subscribeToMessages, unsubscribeFromMessages} from './faye'
 
 export const ROOM_SELECT = 'ROOM_SELECT'
 export const JOIN_TO_ROOM = 'JOIN_TO_ROOM'
@@ -9,14 +9,17 @@ export const JOINED_TO_ROOM = 'JOINED_TO_ROOM'
 export const LEAVED_FROM_ROOM = 'LEAVED_FROM_ROOM'
 export const PATCH_ROOM = 'PATCH_ROOM'
 
-export const roomSelect = (roomId) => dispatch => {
-    dispatch({
-        type: ROOM_SELECT,
-        roomId
-    })
+export const roomSelect = (roomId) => (dispatch, getState) => {
+    const selectedId = getState().rooms.get('selectedId')
+    if (selectedId && selectedId !== roomId) {
+        dispatch(unsubscribeFromMessages(selectedId))
+    }
+    dispatch({type: ROOM_SELECT, roomId})
     dispatch(fetchMessages(roomId))
     dispatch(loadUpdate(roomId))
-    dispatch(subscribeToMessages(roomId))
+    if (selectedId !== roomId) {
+        dispatch(subscribeToMessages(roomId))
+    }
 }
 
 export const joinedToRoom = (room) => {

@@ -8,12 +8,11 @@ export const UNSUBSCRIBE_FROM_MESSAGES = 'UNSUBSCRIBE_FROM_MESSAGES'
 
 export const subscribeToRooms = () => (dispatch, getState) => {
     const userId = getState().user.get('id')
-    const subscriber = roomsSubscriber(dispatch)
+    const subscription = fayeClient.subscribe(`/api/v1/user/${userId}/rooms`, roomsSubscriber(dispatch))
 
-    fayeClient.subscribe(`/api/v1/user/${userId}/rooms`, subscriber)
     dispatch({
         type: SUBSCRIBE_TO_ROOMS,
-        subscriber
+        subscription
     })
 }
 
@@ -26,12 +25,16 @@ export const unsubscribeFromRooms = () => (dispatch, getState) => {
 }
 
 export const subscribeToMessages = (roomId) => (dispatch) => {
-    const subscriber = messagesSubscriber(dispatch, roomId)
-    fayeClient.subscribe(`/api/v1/rooms/${roomId}/chatMessages`, subscriber)
+    const subscription = fayeClient
+        .subscribe(
+            `/api/v1/rooms/${roomId}/chatMessages`,
+            messagesSubscriber(dispatch, roomId)
+        )
+
     dispatch({
         type: SUBSCRIBE_TO_MESSAGES,
         roomId,
-        subscriber
+        subscription
     })
 }
 
