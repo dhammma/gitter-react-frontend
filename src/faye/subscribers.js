@@ -1,5 +1,5 @@
 import {joinedToRoom, leavedFromRoom, patchRoom} from '../actions/room'
-import {mapRoom} from '../helpers/mappers'
+import {mapRoom, mapMessage} from '../helpers/mappers'
 import {newMessage} from '../actions/messages'
 
 export const roomsSubscriber = (dispatch) => (({operation, model}) => {
@@ -16,10 +16,10 @@ export const roomsSubscriber = (dispatch) => (({operation, model}) => {
     }
 })
 
-export const messagesSubscriber = (dispatch) => ({operation, model}) => {
+export const messagesSubscriber = (dispatch, roomId) => ({operation, model}) => {
     switch (operation) {
         case 'create':
-            dispatch(newMessage(model))
+            dispatch(newMessage(roomId, mapMessage(model)))
             break;
     }
 }

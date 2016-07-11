@@ -3,7 +3,8 @@ import {
     REQUEST_MESSAGES,
     RECEIVE_MESSAGES,
     LOAD_MORE,
-    LOAD_UPDATE
+    LOAD_UPDATE,
+    NEW_MESSAGE
 } from '../actions/messages'
 
 const messages = (state = Map(), action) => {
@@ -30,6 +31,14 @@ const messages = (state = Map(), action) => {
                 .setIn([roomId, 'isFetching'], false)
                 .setIn([roomId, 'list'], updatedList)
         }
+        case NEW_MESSAGE:
+            return state
+                .setIn(
+                    [roomId, 'list'],
+                    state
+                        .getIn([roomId, 'list'])
+                        .push(action.message)
+                )
         default:
             return state
     }

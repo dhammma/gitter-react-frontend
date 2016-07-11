@@ -26,7 +26,7 @@ export const unsubscribeFromRooms = () => (dispatch, getState) => {
 }
 
 export const subscribeToMessages = (roomId) => (dispatch) => {
-    const subscriber = messagesSubscriber(dispatch)
+    const subscriber = messagesSubscriber(dispatch, roomId)
     fayeClient.subscribe(`/api/v1/rooms/${roomId}/chatMessages`, subscriber)
     dispatch({
         type: SUBSCRIBE_TO_MESSAGES,

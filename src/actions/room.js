@@ -16,6 +16,7 @@ export const roomSelect = (roomId) => dispatch => {
     })
     dispatch(fetchMessages(roomId))
     dispatch(loadUpdate(roomId))
+    dispatch(subscribeToMessages(roomId))
 }
 
 export const joinedToRoom = (room) => {
@@ -54,7 +55,6 @@ export const checkRoomAvatars = (room) => dispatch => {
 }
 
 export const joinToRoom = (roomUri) => (dispatch) => {
-    console.log(roomUri)
     dispatch({type: JOIN_TO_ROOM, roomUri})
     joinRoom(roomUri)
 }
