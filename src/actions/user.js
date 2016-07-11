@@ -14,7 +14,7 @@ const receiveUser = (user) => {
 const shouldFetchUser = (user) => !user || !user.get('isFetching')
 
 export const fetchUser = () => (dispatch, getState) => {
-    if (shouldFetchUser(getState().get('user'))) {
+    if (shouldFetchUser(getState().user)) {
         dispatch({type: REQUEST_USER})
         getUser()
             .then(user => dispatch(receiveUser(user)))

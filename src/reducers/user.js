@@ -1,16 +1,22 @@
+import {fromJS} from 'immutable'
 import {
     REQUEST_USER,
     RECEIVE_USER
 } from '../actions/user'
 
-const user = (state, action) => {
+const INITIAL_STATE = fromJS({
+    isFetching: false
+})
+
+const user = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case REQUEST_USER:
-            return state.setIn(['user', 'isFetching'], true)
+            return state
+                .set('isFetching', true)
         case RECEIVE_USER:
             return state
-                .setIn(['user', 'isFetching'], false)
-                .mergeIn(['user'], action.user)
+                .set('isFetching', false)
+                .merge(action.user)
         default:
             return state
     }

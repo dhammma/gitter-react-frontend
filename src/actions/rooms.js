@@ -15,8 +15,8 @@ const receiveRooms = (rooms) => {
 const shouldFetchRooms = (rooms) => !rooms || !rooms.get('isFetching')
 
 export const fetchRooms = () => (dispatch, getState) => {
-    if (shouldFetchRooms(getState().get('rooms'))) {
-        const userId = getState().getIn(['user', 'id'])
+    if (shouldFetchRooms(getState().rooms)) {
+        const userId = getState().user.get('id')
         dispatch({type: REQUEST_ROOMS})
         getRooms(userId)
             .then(rooms => {

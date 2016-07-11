@@ -17,11 +17,11 @@ class App extends React.Component {
                     <SideBar
                         rooms={this.getRooms()}
                         roomSelect={this.props.roomSelect}
-                        selectedRoom={this.props.selectedRoom}
+                        selectedRoom={this.props.rooms.get('selectedId')}
                         searchQuery={this.props.searchQuery}
                     />
                     <MessageList
-                        roomId={this.props.selectedRoom}
+                        roomId={this.props.rooms.get('selectedId')}
                         messages={this.props.messages && this.props.messages.toJS()}
                         loadMore={this.props.loadMore}
                     />
@@ -39,7 +39,7 @@ class App extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => state.toObject()
+const mapStateToProps = (state) => state
 const AppContainer = connect(mapStateToProps, {
     loadMore,
     fetchUser,

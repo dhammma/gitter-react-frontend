@@ -38,7 +38,7 @@ export const newMessage = (roomId, message) => {
     }
 }
 
-const shouldFetchMessages = (state, roomId) => !state.getIn(['messages', roomId])
+const shouldFetchMessages = (state, roomId) => !state.messages.get(roomId)
 
 export const fetchMessages = (roomId, limit, beforeId) => (dispatch, getState) => {
     if (shouldFetchMessages(getState(), roomId)) {

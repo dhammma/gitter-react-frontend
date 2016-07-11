@@ -5,14 +5,20 @@ import {
     RECEIVE_SEARCH
 } from '../actions/search'
 
-const search = (state, action) => {
+const INITIAL_STATE = fromJS({
+    isFetching: false,
+    query: '',
+    rooms: ''
+})
+
+const search = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SEARCH_QUERY:
-            return state.setIn(['search', 'query'], action.query)
+            return state.set('query', action.query)
         case REQUEST_SEARCH:
-            return state.setIn(['search', 'isFetching'], true)
+            return state.set('isFetching', true)
         case RECEIVE_SEARCH:
-            return state.setIn(['search', 'rooms'], fromJS(action.rooms))
+            return state.set('rooms', fromJS(action.rooms))
         default:
             return state
     }

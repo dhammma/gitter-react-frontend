@@ -1,3 +1,5 @@
+import {fromJS} from 'immutable'
+
 import {
     SUBSCRIBE_TO_ROOMS,
     UNSUBSCRIBE_FROM_ROOMS,
@@ -5,7 +7,12 @@ import {
     UNSUBSCRIBE_FROM_MESSAGES
 } from '../actions/faye'
 
-const faye = (state, action) => {
+const INITIAL_STATE = fromJS({
+    rooms: null,
+    messages: {}
+})
+
+const faye = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SUBSCRIBE_TO_ROOMS:
             return state.set('rooms', action.subscriber)
