@@ -46,6 +46,9 @@ const rooms = (state = INITIAL_STATE, action) => {
             const room = state
                 .get('list')
                 .find(room => room.get('id') === action.roomId)
+            if (!room) {
+                return state
+            }
             const patchedRoom = room
                 .merge(fromJS(action.patchData))
             const roomKey = state

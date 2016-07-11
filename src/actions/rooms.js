@@ -21,8 +21,7 @@ export const fetchRooms = () => (dispatch, getState) => {
         getRooms(userId)
             .then(rooms => {
                 dispatch(receiveRooms(rooms))
-                // todo: enable faye actions
-                // dispatch(subscribeToRooms(userId))
+                dispatch(subscribeToRooms(userId))
                 _.map(rooms, room => dispatch(checkRoomAvatars(room)))
             })
     }

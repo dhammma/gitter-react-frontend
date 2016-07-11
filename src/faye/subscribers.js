@@ -2,7 +2,7 @@ import {joinedToRoom, leavedFromRoom, patchRoom} from '../actions/room'
 import {mapRoom} from '../helpers/mappers'
 import {newMessage} from '../actions/messages'
 
-const roomsSubscriber = (dispatch) => (({operation, model}) => {
+export const roomsSubscriber = (dispatch) => (({operation, model}) => {
     switch (operation) {
         case 'create':
             dispatch(joinedToRoom(model))
@@ -16,7 +16,7 @@ const roomsSubscriber = (dispatch) => (({operation, model}) => {
     }
 })
 
-const messagesSubscriber = (dispatch) => ({operation, model}) => {
+export const messagesSubscriber = (dispatch) => ({operation, model}) => {
     switch (operation) {
         case 'create':
             dispatch(newMessage(model))
